@@ -1,0 +1,46 @@
+version: '3.9'
+services:
+  rabbitmq:
+    image: rabbitmq:3.13-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  redpanda:
+    image: redpandadata/redpanda:v24.2.7
+    container_name: redpanda
+    command:
+      - redpanda
+      - start
+      - --overprovisioned
+      - --smp
+      - "1"
+      - --memory
+      - 1G
+      - --reserve-memory
+      - 0M
+      - --node-id
+      - "0"
+      - --check=false
+      - --kafka-addr
+      - INTERNAL://0.0.0.0:9092,OUTSIDE://0.0.0.0:19092
+      - --advertise-kafka-addr
+      - INTERNAL://redpanda:9092,OUTSIDE://localhost:19092
+    ports:
+      - "9092:9092"
+      - "19092:19092"
+      - "9644:9644"
+    healthcheck:
+      test: ["CMD", "bash", "-c", "rpk cluster info -X brokers=localhost:19092 || exit 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 30

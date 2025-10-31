@@ -1,0 +1,11 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
+    "KafkaBrokerList": "127.0.0.1:9092",
+    "KafkaTopic": "ordersBatch",
+    "KafkaTopic2": "ordersSingle",
+    "KafkaConsumerGroup": "orders-fn-dev"
+  }
+}
