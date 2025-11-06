@@ -1,4 +1,8 @@
-﻿# GitHub Copilot Instructions
+﻿---
+applyTo: "**"
+---
+
+# GitHub Copilot Instructions
 
 ## Coding style
 - Use C# 12 features where appropriate.
